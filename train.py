@@ -21,7 +21,7 @@ if not os.path.exists(feature_dir_train):
 d=os.path.join(path_to_irmas,'Training')
 instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
 
-ckpt_path = './ckpt/train_model_no_dropout_softmax.ckpt'
+ckpt_path = './ckpt/train_model_no_dropout.ckpt'
 ckpt_load_idx = 0
 
 # Training Parameters
@@ -133,7 +133,7 @@ keep_prob2 = tf.placeholder(tf.float32)
 y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)
 
 
-loss_op = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
+loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(
     logits=y_conv, labels=tf.cast(y_, dtype=tf.float32)))
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss_op)
 
