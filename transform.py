@@ -86,6 +86,43 @@ class Transforms(object):
         else:
             return mag
 
+    def compute_transform2(self, audio, out_path=None, save=True,suffix="",sampleRate=None):
+        """
+        Compute the features for an audio signal.
+            The audio signal \"audio\" is a numpy array with the shape (t,i) - t is time and i is the id of signal
+            Depending on the variable \"save\", it can save the features to a binary file, accompanied by a shape file,
+            which is useful for loading the binary data afterwards
+        
+        Parameters
+        ----------
+        audio : 1D numpy array
+            The array comprising the audio signals
+        out_path : string, optional
+            The path of the directory where to save the audio.
+        save : bool, optional
+            To return or to save in the out_path the computed features
+        Yields
+        ------
+        mag : 2D numpy array
+            The features computed for each of the signals in the audio array, e.g. magnitude spectrograms
+        """
+        self.out_path = out_path
+        #assert os.path.isdir(os.path.dirname(self.out_path)), "path to save tensor does not exist"
+
+        if sampleRate is not None:
+            self.sampleRate = sampleRate
+            #self.fmax=float(self.sampleRate)/2
+
+        #compute features 
+        mag=self.compute_file(audio, sampleRate=self.sampleRate)
+        mag = np.log10(1+100*mag)
+            
+        if save and self.out_path is not None:
+            util.saveTensor(mag,self.out_path,suffix)
+            mag = None
+        else:
+            return mag
+
     def compute_file(self,audio):
         #to be extended
         return None

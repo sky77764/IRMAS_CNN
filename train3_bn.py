@@ -22,8 +22,8 @@ d=os.path.join(path_to_irmas,'Training')
 instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
 
 ckpt_path = './ckpt/train_mode_batchnorm3_softmax.ckpt'
-ckpt_load_idx = 57000
-save_interval = 5000
+ckpt_load_idx = 96000
+save_interval = 3000
 train_acc_interval = 500
 valid_acc_interval = 1000
 
@@ -37,7 +37,7 @@ db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=
 
 # Network Parameters
 feature_dim = 5504 
-num_classes = 11 
+num_classes = 9 
 dropout = 1.0
 dropout2 = 1.0 
 
