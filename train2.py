@@ -21,7 +21,7 @@ if not os.path.exists(feature_dir_train):
 d=os.path.join(path_to_irmas,'Training')
 instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
 
-ckpt_path = './ckpt/train_model_no_dropout.ckpt'
+ckpt_path = './ckpt/train_mode_batchnorm.ckpt'
 ckpt_load_idx = 0
 
 # Training Parameters
@@ -40,7 +40,7 @@ dropout2 = 1.0 # 0.5
 
 def conv2d(x, W, b, strides=1):
     # Conv2D wrapper, with bias and relu activation
-    x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='VALID')
+    x = tf.nn.conv2d(x, W, strides=[1, strides, strides, 1], padding='SAME')
     x = tf.nn.bias_add(x, b)
     return tf.nn.relu(x)
 
@@ -56,43 +56,43 @@ def zero_pad(x, k=2):
 def cnn(x, weights, biases, keep_prob, keep_prob2):
     # 128 x 43 x 1
     x = tf.reshape(x, shape=[-1, 43, 128, 1])
-    x = zero_pad(x, k=2)
     conv1 = conv2d(x, weights['w1_1'], biases['bw1_1'])
-    conv1 = zero_pad(conv1, k=2)
     conv1 = conv2d(conv1, weights['w1_2'], biases['bw1_2'])
-    conv1 = maxpool2d(conv1, k=3)
+    conv1 = maxpool2d(conv1)
     conv1 = tf.nn.dropout(conv1, keep_prob)
+    # conv1_bn = tf.layers.batch_normalization(conv1, name='conv1_bn')
     # print(conv1.get_shape())
 
-    # 44 x 15 x 32
-    conv1 = zero_pad(conv1, k=2)
+    # 64 x 22 x 128
     conv2 = conv2d(conv1, weights['w2_1'], biases['bw2_1'])
-    conv2 = zero_pad(conv2, k=2)
     conv2 = conv2d(conv2, weights['w2_2'], biases['bw2_2'])
-    conv2 = maxpool2d(conv2, k=3)
+    conv2 = maxpool2d(conv2)
     conv2 = tf.nn.dropout(conv2, keep_prob)
     # print(conv2.get_shape())
 
-    # 16 x 6 x 64
-    conv2 = zero_pad(conv2, k=2)
+    # 32 x 11 x 256
     conv3 = conv2d(conv2, weights['w3_1'], biases['bw3_1'])
-    conv3 = zero_pad(conv3, k=2)
     conv3 = conv2d(conv3, weights['w3_2'], biases['bw3_2'])
-    conv3 = maxpool2d(conv3, k=3)
+    conv3 = maxpool2d(conv3)
     conv3 = tf.nn.dropout(conv3, keep_prob)
     # print(conv3.get_shape())
 
-    # 6 x 3 x 128
-    conv3 = zero_pad(conv3, k=2)
+    # 16 x 6 x 512
     conv4 = conv2d(conv3, weights['w4_1'], biases['bw4_1'])
-    conv4 = zero_pad(conv4, k=2)
     conv4 = conv2d(conv4, weights['w4_2'], biases['bw4_2'])
-    conv4 = tf.layers.max_pooling2d(conv4, 7, 10)
+    conv4 = maxpool2d(conv4)
+    conv4 = tf.nn.dropout(conv4, keep_prob)
     # print(conv4.get_shape())
 
-    # 1 x 1 x 256
-    fc1 = tf.contrib.layers.flatten(conv4)
-    fc1 = tf.nn.sigmoid(tf.add(tf.matmul(fc1, weights['fc1']), biases['bfc1']))
+    # 8 x 3 x 1024
+    conv5 = conv2d(conv4, weights['w5_1'], biases['bw5_1'])
+    conv5 = conv2d(conv5, weights['w5_2'], biases['bw5_2'])
+    conv5 = tf.layers.max_pooling2d(conv5, 3, 8)
+    # print(conv5.get_shape())
+
+    # 1 x 1 x 1024
+    fc1 = tf.contrib.layers.flatten(conv5)
+    fc1 = tf.nn.relu(tf.add(tf.matmul(fc1, weights['fc1']), biases['bfc1']))
     fc1 = tf.nn.dropout(fc1, keep_prob2)
     # print(fc1.get_shape())
 
@@ -101,27 +101,31 @@ def cnn(x, weights, biases, keep_prob, keep_prob2):
     return out
 
 weights = {
-    'w1_1' : tf.Variable(tf.random_normal([3, 3, 1, 32]), name='w1_1'),
-    'w1_2' : tf.Variable(tf.random_normal([3, 3, 32, 32]), name='w1_2'),
-    'w2_1' : tf.Variable(tf.random_normal([3, 3, 32, 64]), name='w2_1'),
-    'w2_2' : tf.Variable(tf.random_normal([3, 3, 64, 64]), name='w2_2'),
-    'w3_1' : tf.Variable(tf.random_normal([3, 3, 64, 128]), name='w3_1'),
-    'w3_2' : tf.Variable(tf.random_normal([3, 3, 128, 128]), name='w3_2'),
-    'w4_1' : tf.Variable(tf.random_normal([3, 3, 128, 256]), name='w4_1'),
-    'w4_2' : tf.Variable(tf.random_normal([3, 3, 256, 256]), name='w4_2'),
-    'fc1' : tf.Variable(tf.random_normal([256, 1024]), name='fc1'),
+    'w1_1' : tf.Variable(tf.random_normal([3, 3, 1, 128]), name='w1_1'),
+    'w1_2' : tf.Variable(tf.random_normal([3, 3, 128, 128]), name='w1_2'),
+    'w2_1' : tf.Variable(tf.random_normal([3, 3, 128, 256]), name='w2_1'),
+    'w2_2' : tf.Variable(tf.random_normal([3, 3, 256, 256]), name='w2_2'),
+    'w3_1' : tf.Variable(tf.random_normal([3, 3, 256, 512]), name='w3_1'),
+    'w3_2' : tf.Variable(tf.random_normal([3, 3, 512, 512]), name='w3_2'),
+    'w4_1' : tf.Variable(tf.random_normal([3, 3, 512, 512]), name='w4_1'),
+    'w4_2' : tf.Variable(tf.random_normal([3, 3, 512, 1024]), name='w4_2'),
+    'w5_1' : tf.Variable(tf.random_normal([3, 3, 1024, 1024]), name='w4_1'),
+    'w5_2' : tf.Variable(tf.random_normal([3, 3, 1024, 1024]), name='w4_2'),
+    'fc1' : tf.Variable(tf.random_normal([1024, 1024]), name='fc1'),
     'fc2' : tf.Variable(tf.random_normal([1024, num_classes]), name='fc2')
 }
 
 biases = {
-    'bw1_1' : tf.Variable(tf.random_normal([32]), name='bw1_1'),
-    'bw1_2' : tf.Variable(tf.random_normal([32]), name='bw1_2'),
-    'bw2_1' : tf.Variable(tf.random_normal([64]), name='bw2_1'),
-    'bw2_2' : tf.Variable(tf.random_normal([64]), name='bw2_2'),
-    'bw3_1' : tf.Variable(tf.random_normal([128]), name='bw3_1'),
-    'bw3_2' : tf.Variable(tf.random_normal([128]), name='bw3_2'),
-    'bw4_1' : tf.Variable(tf.random_normal([256]), name='bw4_1'),
-    'bw4_2' : tf.Variable(tf.random_normal([256]), name='bw4_2'),
+    'bw1_1' : tf.Variable(tf.random_normal([128]), name='bw1_1'),
+    'bw1_2' : tf.Variable(tf.random_normal([128]), name='bw1_2'),
+    'bw2_1' : tf.Variable(tf.random_normal([256]), name='bw2_1'),
+    'bw2_2' : tf.Variable(tf.random_normal([256]), name='bw2_2'),
+    'bw3_1' : tf.Variable(tf.random_normal([512]), name='bw3_1'),
+    'bw3_2' : tf.Variable(tf.random_normal([512]), name='bw3_2'),
+    'bw4_1' : tf.Variable(tf.random_normal([512]), name='bw4_1'),
+    'bw4_2' : tf.Variable(tf.random_normal([1024]), name='bw4_2'),
+    'bw5_1' : tf.Variable(tf.random_normal([1024]), name='bw4_1'),
+    'bw5_2' : tf.Variable(tf.random_normal([1024]), name='bw4_2'),
     'bfc1': tf.Variable(tf.random_normal([1024]), name='bfc1'),
     'bfc2': tf.Variable(tf.random_normal([num_classes]), name='bfc2')
 }
@@ -142,24 +146,24 @@ correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
 correct_prediction = tf.cast(correct_prediction, tf.float32)
 accuracy = tf.reduce_mean(correct_prediction)
 
-for i in range(3):
-    plt.figure(i)
-    plt.subplot(511)
-    plt.imshow(db.features[i*10,:,:].T,interpolation='none', origin='lower')
-    plt.ylabel(instruments[int(db.labels[i*10])])
-    plt.subplot(512)
-    plt.imshow(db.features[i*10+1,:,:].T,interpolation='none', origin='lower')
-    plt.ylabel(instruments[int(db.labels[i*10+1])])
-    plt.subplot(513)
-    plt.imshow(db.features[i*10+2,:,:].T,interpolation='none', origin='lower')
-    plt.ylabel(instruments[int(db.labels[i*10+2])])
-    plt.subplot(514)
-    plt.imshow(db.features[i*10+3,:,:].T,interpolation='none', origin='lower')
-    plt.ylabel(instruments[int(db.labels[i*10+3])])
-    plt.subplot(515)
-    plt.imshow(db.features[i*10+4,:,:].T,interpolation='none', origin='lower')
-    plt.ylabel(instruments[int(db.labels[i*10+4])])
-    plt.show()
+# for i in range(3):
+#     plt.figure(i)
+#     plt.subplot(511)
+#     plt.imshow(db.features[i*10,:,:].T,interpolation='none', origin='lower')
+#     plt.ylabel(instruments[int(db.labels[i*10])])
+#     plt.subplot(512)
+#     plt.imshow(db.features[i*10+1,:,:].T,interpolation='none', origin='lower')
+#     plt.ylabel(instruments[int(db.labels[i*10+1])])
+#     plt.subplot(513)
+#     plt.imshow(db.features[i*10+2,:,:].T,interpolation='none', origin='lower')
+#     plt.ylabel(instruments[int(db.labels[i*10+2])])
+#     plt.subplot(514)
+#     plt.imshow(db.features[i*10+3,:,:].T,interpolation='none', origin='lower')
+#     plt.ylabel(instruments[int(db.labels[i*10+3])])
+#     plt.subplot(515)
+#     plt.imshow(db.features[i*10+4,:,:].T,interpolation='none', origin='lower')
+#     plt.ylabel(instruments[int(db.labels[i*10+4])])
+#     plt.show()
 
 train_images = db.features.reshape(-1, feature_dim)
 train_labels = np.zeros((db.labels.shape[0], num_classes))
@@ -186,7 +190,7 @@ with tf.Session() as sess:
             print('[%s] step %d, training accuracy %g' % (datetime.now().strftime('%m-%d %H:%M:%S'), i+ckpt_load_idx, train_accuracy))
 
         if i != 0 and i % 1000 == 0:
-            rand_index = np.random.choice(valid_images.shape[0], size=1000)
+            rand_index = np.random.choice(valid_images.shape[0], size=500)
             x_valid_batch, y_valid_batch = valid_images[rand_index], valid_labels[rand_index]
             valid_accuracy = accuracy.eval(feed_dict={
                 x: x_valid_batch, y_: y_valid_batch, keep_prob: 1.0, keep_prob2: 1.0})
@@ -196,5 +200,3 @@ with tf.Session() as sess:
 
         optimizer.run(feed_dict={x: x_batch, y_: y_batch, keep_prob: dropout, keep_prob2: dropout2})
 
-    print('test accuracy %g' % accuracy.eval(feed_dict={
-        x: valid_images, y_: valid_labels, keep_prob: 1.0, keep_prob2: 1.0}))

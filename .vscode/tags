@@ -1,0 +1,245 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BATCH_SIZE	../settings.py	/^BATCH_SIZE = 16$/;"	kind:variable	line:7
+EARLY_STOPPING_EPOCH	../settings.py	/^EARLY_STOPPING_EPOCH = 20$/;"	kind:variable	line:6
+IRMAS_N_CLASSES	../settings.py	/^IRMAS_N_CLASSES = 11$/;"	kind:variable	line:1
+MAX_EPOCH_NUM	../settings.py	/^MAX_EPOCH_NUM = 400$/;"	kind:variable	line:5
+MODEL_WEIGHT_BASEPATH	../settings.py	/^MODEL_WEIGHT_BASEPATH = '.\/weights\/'$/;"	kind:variable	line:18
+MyDataset	../dataset.py	/^class MyDataset(object):$/;"	kind:class	line:26
+N_MEL_BANDS	../settings.py	/^N_MEL_BANDS = 96$/;"	kind:variable	line:14
+N_SEGMENTS_PER_TRAINING_FILE	../settings.py	/^N_SEGMENTS_PER_TRAINING_FILE = 1$/;"	kind:variable	line:10
+N_TRAINING_SET	../settings.py	/^N_TRAINING_SET = 6705$/;"	kind:variable	line:4
+SAMPLES_PER_EPOCH	../settings.py	/^SAMPLES_PER_EPOCH = N_TRAINING_SET * N_SEGMENTS_PER_TRAINING_FILE * TRAIN_SPLIT$/;"	kind:variable	line:11
+SAMPLES_PER_VALIDATION	../settings.py	/^SAMPLES_PER_VALIDATION = N_TRAINING_SET * N_SEGMENTS_PER_TRAINING_FILE * VALIDATION_SPLIT$/;"	kind:variable	line:12
+SEGMENT_DUR	../settings.py	/^SEGMENT_DUR = 128$/;"	kind:variable	line:15
+STEPS_PER_EPOCH	../settings.py	/^STEPS_PER_EPOCH = (N_TRAINING_SET * TRAIN_SPLIT)\/BATCH_SIZE$/;"	kind:variable	line:13
+TRAIN_SPLIT	../settings.py	/^TRAIN_SPLIT = 0.85$/;"	kind:variable	line:2
+Transforms	../transform.py	/^class Transforms(object):$/;"	kind:class	line:24
+VALIDATION_SPLIT	../settings.py	/^VALIDATION_SPLIT = 0.15$/;"	kind:variable	line:3
+__call__	../dataset.py	/^    def __call__(self):$/;"	kind:member	line:173
+__init__	../dataset.py	/^    def __init__(self, feature_dir=None, batch_size=32, time_context=100, step=25, $/;"	kind:member	line:44
+__init__	../transform.py	/^    def __init__(self, ttype='fft', bins=48, frameSize=1024, hopSize=256, tffmin=0, tffmax=22050, iscale = 'lin', sampleRate=44100, window=np.hanning):$/;"	kind:member	line:40
+__init__	../transform.py	/^    def __init__(self, ttype='fft', bins=48, frameSize=1024, hopSize=256, tffmin=25, tffmax=18000, iscale = 'lin', sampleRate=44100, window=np.hanning):$/;"	kind:member	line:110
+__init__	../transform.py	/^    def __init__(self, ttype='mel', bins=48, frameSize=1024, hopSize=256, tffmin=25, tffmax=18000, iscale = 'lin', sampleRate=44100, window=np.hanning):$/;"	kind:member	line:142
+__iter__	../dataset.py	/^    def __iter__(self):$/;"	kind:member	line:176
+__len__	../dataset.py	/^    def __len__(self):$/;"	kind:member	line:170
+accuracy	../train.py	/^accuracy = tf.reduce_mean(correct_prediction)$/;"	kind:variable	line:143
+accuracy	../train2.py	/^accuracy = tf.reduce_mean(correct_prediction)$/;"	kind:variable	line:147
+accuracy	../train2_bn.py	/^accuracy = tf.reduce_mean(correct_prediction)$/;"	kind:variable	line:151
+accuracy	../train3_bn.py	/^accuracy = tf.reduce_mean(correct_prediction)$/;"	kind:variable	line:128
+batch_size	../train.py	/^batch_size = 128$/;"	kind:variable	line:30
+batch_size	../train2.py	/^batch_size = 128$/;"	kind:variable	line:30
+batch_size	../train2_bn.py	/^batch_size = 128$/;"	kind:variable	line:30
+batch_size	../train3_bn.py	/^batch_size = 128$/;"	kind:variable	line:30
+batches	../dataset.py	/^    def batches(self):$/;"	kind:member	line:182
+biases	../train.py	/^biases = {$/;"	kind:variable	line:116
+biases	../train2.py	/^biases = {$/;"	kind:variable	line:118
+biases	../train2_bn.py	/^biases = {$/;"	kind:variable	line:122
+biases	../train3_bn.py	/^biases = {$/;"	kind:variable	line:105
+ckpt_load_idx	../train.py	/^ckpt_load_idx = 0$/;"	kind:variable	line:25
+ckpt_load_idx	../train2.py	/^ckpt_load_idx = 0$/;"	kind:variable	line:25
+ckpt_load_idx	../train2_bn.py	/^ckpt_load_idx = 14000$/;"	kind:variable	line:25
+ckpt_load_idx	../train3_bn.py	/^ckpt_load_idx = 0$/;"	kind:variable	line:25
+ckpt_path	../train.py	/^ckpt_path = '.\/ckpt\/train_model_no_dropout.ckpt'$/;"	kind:variable	line:24
+ckpt_path	../train2.py	/^ckpt_path = '.\/ckpt\/train_mode_batchnorm.ckpt'$/;"	kind:variable	line:24
+ckpt_path	../train2_bn.py	/^ckpt_path = '.\/ckpt\/train_mode_batchnorm2.ckpt'$/;"	kind:variable	line:24
+ckpt_path	../train3_bn.py	/^ckpt_path = '.\/ckpt\/train_mode_batchnorm3_dropout.ckpt'$/;"	kind:variable	line:24
+cnn	../train.py	/^def cnn(x, weights, biases, keep_prob, keep_prob2):$/;"	kind:function	line:56
+cnn	../train2.py	/^def cnn(x, weights, biases, keep_prob, keep_prob2):$/;"	kind:function	line:56
+cnn	../train2_bn.py	/^def cnn(x, weights, biases, keep_prob, keep_prob2):$/;"	kind:function	line:56
+cnn	../train3_bn.py	/^def cnn(x, weights, biases, keep_prob, keep_prob2):$/;"	kind:function	line:56
+compute_file	../transform.py	/^    def compute_file(self,audio):$/;"	kind:member	line:89
+compute_file	../transform.py	/^    def compute_file(self,audio, sampleRate=44100):$/;"	kind:member	line:113
+compute_file	../transform.py	/^    def compute_file(self,audio, sampleRate=44100):$/;"	kind:member	line:145
+compute_transform	../transform.py	/^    def compute_transform(self, audio, out_path=None, save=True,suffix="",sampleRate=None):$/;"	kind:member	line:52
+conv2d	../train.py	/^def conv2d(x, W, b, strides=1):$/;"	kind:function	line:41
+conv2d	../train2.py	/^def conv2d(x, W, b, strides=1):$/;"	kind:function	line:41
+conv2d	../train2_bn.py	/^def conv2d(x, W, b, strides=1):$/;"	kind:function	line:41
+conv2d	../train3_bn.py	/^def conv2d(x, W, b, strides=1):$/;"	kind:function	line:41
+correct_prediction	../train.py	/^correct_prediction = tf.cast(correct_prediction, tf.float32)$/;"	kind:variable	line:142
+correct_prediction	../train.py	/^correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))$/;"	kind:variable	line:141
+correct_prediction	../train2.py	/^correct_prediction = tf.cast(correct_prediction, tf.float32)$/;"	kind:variable	line:146
+correct_prediction	../train2.py	/^correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))$/;"	kind:variable	line:145
+correct_prediction	../train2_bn.py	/^correct_prediction = tf.cast(correct_prediction, tf.float32)$/;"	kind:variable	line:150
+correct_prediction	../train2_bn.py	/^correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))$/;"	kind:variable	line:149
+correct_prediction	../train3_bn.py	/^correct_prediction = tf.cast(correct_prediction, tf.float32)$/;"	kind:variable	line:127
+correct_prediction	../train3_bn.py	/^correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))$/;"	kind:variable	line:126
+d	../loadTraining.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:17
+d	../preprocessTraining.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:17
+d	../train.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:21
+d	../train2.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:21
+d	../train2_bn.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:21
+d	../train3_bn.py	/^d=os.path.join(path_to_irmas,'Training')$/;"	kind:variable	line:21
+dataset.py	../dataset.py	1;"	kind:file	line:1
+db	../loadTraining.py	/^db=MyDataset(feature_dir=feature_dir_train, batch_size=128, time_context=128, step=50, $/;"	kind:variable	line:20
+db	../train.py	/^db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=128, step=64, $/;"	kind:variable	line:32
+db	../train2.py	/^db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=128, step=64, $/;"	kind:variable	line:32
+db	../train2_bn.py	/^db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=128, step=64, $/;"	kind:variable	line:32
+db	../train3_bn.py	/^db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=128, step=64, $/;"	kind:variable	line:32
+dropout	../train.py	/^dropout = 1.0 # 0.75 $/;"	kind:variable	line:38
+dropout	../train2.py	/^dropout = 1.0 # 0.75 $/;"	kind:variable	line:38
+dropout	../train2_bn.py	/^dropout = 1.0 # 0.75 $/;"	kind:variable	line:38
+dropout	../train3_bn.py	/^dropout = 1.0$/;"	kind:variable	line:38
+dropout2	../train.py	/^dropout2 = 1.0 # 0.5$/;"	kind:variable	line:39
+dropout2	../train2.py	/^dropout2 = 1.0 # 0.5$/;"	kind:variable	line:39
+dropout2	../train2_bn.py	/^dropout2 = 1.0 # 0.5$/;"	kind:variable	line:39
+dropout2	../train3_bn.py	/^dropout2 = 0.7 $/;"	kind:variable	line:39
+feature_dim	../train.py	/^feature_dim = 5504 $/;"	kind:variable	line:36
+feature_dim	../train2.py	/^feature_dim = 5504 $/;"	kind:variable	line:36
+feature_dim	../train2_bn.py	/^feature_dim = 5504 $/;"	kind:variable	line:36
+feature_dim	../train3_bn.py	/^feature_dim = 5504 $/;"	kind:variable	line:36
+feature_dir_train	../loadTraining.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:12
+feature_dir_train	../preprocessTraining.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:13
+feature_dir_train	../train.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:16
+feature_dir_train	../train2.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:16
+feature_dir_train	../train2_bn.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:16
+feature_dir_train	../train3_bn.py	/^feature_dir_train = os.path.join(path_to_irmas,'features','Training')$/;"	kind:variable	line:16
+feature_reshape	../loadTraining.py	/^feature_reshape = db.features.reshape(-1, 5504)$/;"	kind:variable	line:26
+features	../loadTraining.py	/^features = np.swapaxes(features,1,3)$/;"	kind:variable	line:34
+fetchFile	../dataset.py	/^    def fetchFile(self,id):$/;"	kind:member	line:125
+file_list	../preprocessTraining.py	/^file_list = [f for f in os.listdir(feature_dir_train) $/;"	kind:variable	line:29
+getData	../dataset.py	/^    def getData(self):$/;"	kind:member	line:146
+getFeatureSize	../dataset.py	/^    def getFeatureSize(self,infile):$/;"	kind:member	line:73
+getNumInstances	../dataset.py	/^    def getNumInstances(self,infile,time_context=100,step=25):$/;"	kind:member	line:64
+getValidation	../dataset.py	/^    def getValidation(self):$/;"	kind:member	line:153
+get_shape	../util.py	/^def get_shape(shape_file):$/;"	kind:function	line:77
+hz_to_mel	../transform.py	/^def hz_to_mel(frequencies, htk=False):$/;"	kind:function	line:410
+infoAudioScipy	../util.py	/^def infoAudioScipy(filein):$/;"	kind:function	line:25
+initDir	../dataset.py	/^    def initDir(self,feature_dir):        $/;"	kind:member	line:81
+instruments	../loadTraining.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:18
+instruments	../preprocessTraining.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:18
+instruments	../train.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:22
+instruments	../train2.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:22
+instruments	../train2_bn.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:22
+instruments	../train3_bn.py	/^instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))$/;"	kind:variable	line:22
+iterate	../dataset.py	/^    def iterate(self):$/;"	kind:member	line:157
+keep_prob	../train.py	/^keep_prob = tf.placeholder(tf.float32)$/;"	kind:variable	line:131
+keep_prob	../train2.py	/^keep_prob = tf.placeholder(tf.float32)$/;"	kind:variable	line:135
+keep_prob	../train2_bn.py	/^keep_prob = tf.placeholder(tf.float32)$/;"	kind:variable	line:139
+keep_prob	../train3_bn.py	/^keep_prob = tf.placeholder(tf.float32)$/;"	kind:variable	line:116
+keep_prob2	../train.py	/^keep_prob2 = tf.placeholder(tf.float32)$/;"	kind:variable	line:132
+keep_prob2	../train2.py	/^keep_prob2 = tf.placeholder(tf.float32)$/;"	kind:variable	line:136
+keep_prob2	../train2_bn.py	/^keep_prob2 = tf.placeholder(tf.float32)$/;"	kind:variable	line:140
+keep_prob2	../train3_bn.py	/^keep_prob2 = tf.placeholder(tf.float32)$/;"	kind:variable	line:117
+label	../loadTraining.py	/^label = np.nonzero(labels[2,:])[0]$/;"	kind:variable	line:40
+learning_rate	../train.py	/^learning_rate = 0.001$/;"	kind:variable	line:28
+learning_rate	../train2.py	/^learning_rate = 0.001$/;"	kind:variable	line:28
+learning_rate	../train2_bn.py	/^learning_rate = 0.001$/;"	kind:variable	line:28
+learning_rate	../train3_bn.py	/^learning_rate = 0.001$/;"	kind:variable	line:28
+loadTensor	../util.py	/^def loadTensor(out_path,suffix=''):$/;"	kind:function	line:60
+loadTraining.py	../loadTraining.py	1;"	kind:file	line:1
+loss_op	../train.py	/^loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits($/;"	kind:variable	line:136
+loss_op	../train2.py	/^loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits($/;"	kind:variable	line:140
+loss_op	../train2_bn.py	/^loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits($/;"	kind:variable	line:144
+loss_op	../train3_bn.py	/^loss_op = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits($/;"	kind:variable	line:121
+maxpool2d	../train.py	/^def maxpool2d(x, k=2):$/;"	kind:function	line:48
+maxpool2d	../train2.py	/^def maxpool2d(x, k=2):$/;"	kind:function	line:48
+maxpool2d	../train2_bn.py	/^def maxpool2d(x, k=2):$/;"	kind:function	line:48
+maxpool2d	../train3_bn.py	/^def maxpool2d(x, k=2):$/;"	kind:function	line:48
+mel	../transform.py	/^def mel(sr, n_fft, n_mels=128, fmin=0.0, fmax=None, htk=False,$/;"	kind:function	line:252
+mel_frequencies	../transform.py	/^def mel_frequencies(n_mels=128, fmin=0.0, fmax=11025.0, htk=False):$/;"	kind:function	line:363
+mel_to_hz	../transform.py	/^def mel_to_hz(mels, htk=False):$/;"	kind:function	line:460
+melspec	../preprocessTraining.py	/^melspec = util.loadTensor(out_path=os.path.join(feature_dir_train,file_list[0]))$/;"	kind:variable	line:34
+next	../dataset.py	/^    def next(self):$/;"	kind:member	line:179
+num_classes	../train.py	/^num_classes = 11 $/;"	kind:variable	line:37
+num_classes	../train2.py	/^num_classes = 11 $/;"	kind:variable	line:37
+num_classes	../train2_bn.py	/^num_classes = 11 $/;"	kind:variable	line:37
+num_classes	../train3_bn.py	/^num_classes = 11 $/;"	kind:variable	line:37
+num_steps	../train.py	/^num_steps = 200000$/;"	kind:variable	line:29
+num_steps	../train2.py	/^num_steps = 200000$/;"	kind:variable	line:29
+num_steps	../train2_bn.py	/^num_steps = 200000$/;"	kind:variable	line:29
+num_steps	../train3_bn.py	/^num_steps = 200000$/;"	kind:variable	line:29
+optimizer	../train.py	/^optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss_op)$/;"	kind:variable	line:138
+optimizer	../train2.py	/^optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss_op)$/;"	kind:variable	line:142
+optimizer	../train2_bn.py	/^optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss_op)$/;"	kind:variable	line:146
+optimizer	../train3_bn.py	/^optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss_op)$/;"	kind:variable	line:123
+path_to_irmas	../loadTraining.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:11
+path_to_irmas	../preprocessTraining.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:12
+path_to_irmas	../train.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:15
+path_to_irmas	../train2.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:15
+path_to_irmas	../train2_bn.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:15
+path_to_irmas	../train3_bn.py	/^path_to_irmas = '\/home\/js\/dataset\/IRMAS\/'$/;"	kind:variable	line:15
+preprocessTraining.py	../preprocessTraining.py	1;"	kind:file	line:1
+rand_index	../train.py	/^            rand_index = np.random.choice(valid_images.shape[0], size=1000)$/;"	kind:variable	line:189
+rand_index	../train.py	/^        rand_index = np.random.choice(train_images.shape[0], size=batch_size)$/;"	kind:variable	line:181
+rand_index	../train2.py	/^            rand_index = np.random.choice(valid_images.shape[0], size=500)$/;"	kind:variable	line:193
+rand_index	../train2.py	/^        rand_index = np.random.choice(train_images.shape[0], size=batch_size)$/;"	kind:variable	line:185
+rand_index	../train2_bn.py	/^            rand_index = np.random.choice(valid_images.shape[0], size=500)$/;"	kind:variable	line:197
+rand_index	../train2_bn.py	/^        rand_index = np.random.choice(train_images.shape[0], size=batch_size)$/;"	kind:variable	line:189
+rand_index	../train3_bn.py	/^            rand_index = np.random.choice(valid_images.shape[0], size=500)$/;"	kind:variable	line:174
+rand_index	../train3_bn.py	/^        rand_index = np.random.choice(train_images.shape[0], size=batch_size)$/;"	kind:variable	line:166
+readAudioScipy	../util.py	/^def readAudioScipy(filein):$/;"	kind:function	line:32
+saveTensor	../util.py	/^def saveTensor(t, out_path, suffix=''):$/;"	kind:function	line:51
+save_path	../train.py	/^            save_path = saver.save(sess, ckpt_path, global_step=i+ckpt_load_idx)$/;"	kind:variable	line:194
+save_path	../train2.py	/^            save_path = saver.save(sess, ckpt_path, global_step=i+ckpt_load_idx)$/;"	kind:variable	line:198
+save_path	../train2_bn.py	/^            save_path = saver.save(sess, ckpt_path, global_step=i+ckpt_load_idx)$/;"	kind:variable	line:202
+save_path	../train3_bn.py	/^            save_path = saver.save(sess, ckpt_path, global_step=i+ckpt_load_idx)$/;"	kind:variable	line:179
+save_shape	../util.py	/^def save_shape(shape_file,shape):$/;"	kind:function	line:70
+saver	../train.py	/^    saver = tf.train.Saver()$/;"	kind:variable	line:175
+saver	../train2.py	/^    saver = tf.train.Saver()$/;"	kind:variable	line:179
+saver	../train2_bn.py	/^    saver = tf.train.Saver()$/;"	kind:variable	line:183
+saver	../train3_bn.py	/^    saver = tf.train.Saver()$/;"	kind:variable	line:160
+settings.py	../settings.py	1;"	kind:file	line:1
+shuffleBatches	../dataset.py	/^    def shuffleBatches(self):$/;"	kind:member	line:119
+sinebell	../transform.py	/^def sinebell(lengthWindow):$/;"	kind:function	line:172
+stft_norm	../transform.py	/^def stft_norm(data, window=sinebell(2048),$/;"	kind:function	line:189
+suffix_in	../preprocessTraining.py	/^suffix_in='_mel_'$/;"	kind:variable	line:27
+suffix_out	../preprocessTraining.py	/^suffix_out='_label_'$/;"	kind:variable	line:28
+tr	../preprocessTraining.py	/^tr = transformMEL(bins=43, frameSize=1024, hopSize=512)$/;"	kind:variable	line:10
+train.py	../train.py	1;"	kind:file	line:1
+train2.py	../train2.py	1;"	kind:file	line:1
+train2_bn.py	../train2_bn.py	1;"	kind:file	line:1
+train3_bn.py	../train3_bn.py	1;"	kind:file	line:1
+train_accuracy	../train.py	/^            train_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:184
+train_accuracy	../train2.py	/^            train_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:188
+train_accuracy	../train2_bn.py	/^            train_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:192
+train_accuracy	../train3_bn.py	/^            train_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:169
+train_images	../train.py	/^train_images = db.features.reshape(-1, feature_dim)$/;"	kind:variable	line:164
+train_images	../train2.py	/^train_images = db.features.reshape(-1, feature_dim)$/;"	kind:variable	line:168
+train_images	../train2_bn.py	/^train_images = db.features.reshape(-1, feature_dim)$/;"	kind:variable	line:172
+train_images	../train3_bn.py	/^train_images = db.features.reshape(-1, feature_dim)$/;"	kind:variable	line:149
+train_labels	../train.py	/^train_labels = np.zeros((db.labels.shape[0], num_classes))$/;"	kind:variable	line:165
+train_labels	../train2.py	/^train_labels = np.zeros((db.labels.shape[0], num_classes))$/;"	kind:variable	line:169
+train_labels	../train2_bn.py	/^train_labels = np.zeros((db.labels.shape[0], num_classes))$/;"	kind:variable	line:173
+train_labels	../train3_bn.py	/^train_labels = np.zeros((db.labels.shape[0], num_classes))$/;"	kind:variable	line:150
+transform.py	../transform.py	1;"	kind:file	line:1
+transformFFT	../transform.py	/^class transformFFT(Transforms):$/;"	kind:class	line:94
+transformMEL	../transform.py	/^class transformMEL(Transforms):$/;"	kind:class	line:136
+util.py	../util.py	1;"	kind:file	line:1
+valid_accuracy	../train.py	/^            valid_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:191
+valid_accuracy	../train2.py	/^            valid_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:195
+valid_accuracy	../train2_bn.py	/^            valid_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:199
+valid_accuracy	../train3_bn.py	/^            valid_accuracy = accuracy.eval(feed_dict={$/;"	kind:variable	line:176
+valid_images	../train.py	/^valid_images = db.features_valid.reshape(-1, feature_dim)$/;"	kind:variable	line:169
+valid_images	../train2.py	/^valid_images = db.features_valid.reshape(-1, feature_dim)$/;"	kind:variable	line:173
+valid_images	../train2_bn.py	/^valid_images = db.features_valid.reshape(-1, feature_dim)$/;"	kind:variable	line:177
+valid_images	../train3_bn.py	/^valid_images = db.features_valid.reshape(-1, feature_dim)$/;"	kind:variable	line:154
+valid_labels	../train.py	/^valid_labels = np.zeros((db.labels_valid.shape[0], num_classes))$/;"	kind:variable	line:170
+valid_labels	../train2.py	/^valid_labels = np.zeros((db.labels_valid.shape[0], num_classes))$/;"	kind:variable	line:174
+valid_labels	../train2_bn.py	/^valid_labels = np.zeros((db.labels_valid.shape[0], num_classes))$/;"	kind:variable	line:178
+valid_labels	../train3_bn.py	/^valid_labels = np.zeros((db.labels_valid.shape[0], num_classes))$/;"	kind:variable	line:155
+weights	../train.py	/^weights = {$/;"	kind:variable	line:103
+weights	../train2.py	/^weights = {$/;"	kind:variable	line:103
+weights	../train2_bn.py	/^weights = {$/;"	kind:variable	line:107
+weights	../train3_bn.py	/^weights = {$/;"	kind:variable	line:96
+writeAudioScipy	../util.py	/^def writeAudioScipy(fileout,audio_out,sampleRate,bitrate="int16"):$/;"	kind:function	line:47
+x	../train.py	/^x = tf.placeholder(tf.float32, [None, feature_dim])$/;"	kind:variable	line:129
+x	../train2.py	/^x = tf.placeholder(tf.float32, [None, feature_dim])$/;"	kind:variable	line:133
+x	../train2_bn.py	/^x = tf.placeholder(tf.float32, [None, feature_dim])$/;"	kind:variable	line:137
+x	../train3_bn.py	/^x = tf.placeholder(tf.float32, [None, feature_dim])$/;"	kind:variable	line:114
+y_	../train.py	/^y_ = tf.placeholder(tf.float32, [None, num_classes])$/;"	kind:variable	line:130
+y_	../train2.py	/^y_ = tf.placeholder(tf.float32, [None, num_classes])$/;"	kind:variable	line:134
+y_	../train2_bn.py	/^y_ = tf.placeholder(tf.float32, [None, num_classes])$/;"	kind:variable	line:138
+y_	../train3_bn.py	/^y_ = tf.placeholder(tf.float32, [None, num_classes])$/;"	kind:variable	line:115
+y_conv	../train.py	/^y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)$/;"	kind:variable	line:133
+y_conv	../train2.py	/^y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)$/;"	kind:variable	line:137
+y_conv	../train2_bn.py	/^y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)$/;"	kind:variable	line:141
+y_conv	../train3_bn.py	/^y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)$/;"	kind:variable	line:118
+zero_pad	../train.py	/^def zero_pad(x, k=2):$/;"	kind:function	line:53
+zero_pad	../train2.py	/^def zero_pad(x, k=2):$/;"	kind:function	line:53
+zero_pad	../train2_bn.py	/^def zero_pad(x, k=2):$/;"	kind:function	line:53
+zero_pad	../train3_bn.py	/^def zero_pad(x, k=2):$/;"	kind:function	line:53
