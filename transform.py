@@ -259,6 +259,8 @@ def stft_norm(data, window=sinebell(2048),
     # to ensure that the data array s big enough,
     # assuming the first frame is centered on first sample:
     newLengthData = int((numberFrames-1) * hopsize + lengthWindow)
+    print('lengthData: ', lengthData, ', hopsize: ', hopsize)
+    print('numberFrames: ', numberFrames, ', newLengthData: ', newLengthData)
     
     # !!! adding zeros to the beginning of data, such that the first window is
     # centered on the first sample of data

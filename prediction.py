@@ -12,12 +12,26 @@ import matplotlib.pyplot as plt
 import dataset
 from dataset import MyDataset
 from datetime import datetime
+import moviepy.editor as mp
+
+VIDEO_MODE = True
+MAKE_CLIP = True
+
+filename = "saxophone"
+if VIDEO_MODE:
+    audio_file_name = "./sound/"+filename+".wav"
+    if MAKE_CLIP:
+        clip = mp.VideoFileClip("./video/"+filename+".mp4").subclip(75,90)
+        clip.audio.write_audiofile(audio_file_name)
+        clip.write_videofile("./video_clip/"+filename+".mp4")
+else:
+    audio_file_name = './'+filename+'.wav'
+
 path_to_irmas = '/home/js/dataset/IRMAS/'
 
 d=os.path.join(path_to_irmas,'Training')
 instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
 
-audio_file_name = './001__[voi][dru][pop_roc]2321__2.wav'
 ckpt_path = './ckpt/train_mode_batchnorm3_softmax.ckpt'
 ckpt_load_idx = 105000
 
