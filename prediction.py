@@ -13,10 +13,12 @@ import dataset
 from dataset import MyDataset
 from datetime import datetime
 import moviepy.editor as mp
+import cv2
 
 VIDEO_MODE = True
-MAKE_CLIP = True
+MAKE_CLIP = False
 
+# clip and seperate vid & aud
 filename = "saxophone"
 if VIDEO_MODE:
     audio_file_name = "./sound/"+filename+".wav"
@@ -39,7 +41,7 @@ batch_size = 128
 
 # Network Parameters
 feature_dim = 5504 
-num_classes = 9 
+num_classes = 8 
 
 def conv2d(x, W, b, strides=1):
     # Conv2D wrapper, with bias and relu activation
@@ -60,34 +62,29 @@ def cnn(x, weights, biases, keep_prob, keep_prob2):
     conv1 = maxpool2d(conv1)
     conv1 = tf.nn.dropout(conv1, keep_prob)
     conv1_bn = tf.layers.batch_normalization(conv1, name='conv1_bn')
-    # print(conv1.get_shape())
 
     # 64 x 22 x 128
     conv2 = conv2d(conv1_bn, weights['w2_1'], biases['bw2_1'])
     conv2 = maxpool2d(conv2)
     conv2 = tf.nn.dropout(conv2, keep_prob)
     conv2_bn = tf.layers.batch_normalization(conv2, name='conv2_bn')
-    # print(conv2.get_shape())
 
     # 32 x 11 x 256
     conv3 = conv2d(conv2_bn, weights['w3_1'], biases['bw3_1'])
     conv3 = maxpool2d(conv3)
     conv3 = tf.nn.dropout(conv3, keep_prob)
     conv3_bn = tf.layers.batch_normalization(conv3, name='conv3_bn')
-    # print(conv3.get_shape())
 
     # 16 x 6 x 512
     conv4 = conv2d(conv3_bn, weights['w4_1'], biases['bw4_1'])
     conv4 = maxpool2d(conv4)
     conv4 = tf.nn.dropout(conv4, keep_prob)
     conv4_bn = tf.layers.batch_normalization(conv4, name='conv4_bn')
-    # print(conv4.get_shape())
 
     # 8 x 3 x 1024
     fc1 = tf.contrib.layers.flatten(conv4_bn)
     fc1 = tf.nn.relu(tf.add(tf.matmul(fc1, weights['fc1']), biases['bfc1']))
     fc1 = tf.nn.dropout(fc1, keep_prob2)
-    # print(fc1.get_shape())
 
     # 1024
     out = tf.add(tf.matmul(fc1, weights['fc2']), biases['bfc2'])
@@ -117,12 +114,17 @@ keep_prob2 = tf.placeholder(tf.float32)
 y_conv = cnn(x, weights, biases, keep_prob, keep_prob2)
 y_conv_softmax = tf.nn.softmax(y_conv)
 
-
-tr = transformMEL(bins=43, frameSize=1024, hopSize=512)
+lengthWindow = 1024
+hopsize = 512
+tr = transformMEL(bins=43, frameSize=lengthWindow, hopSize=hopsize)
 audio, sampleRate, bitrate = util.readAudioScipy(audio_file_name) 
 melspec = tr.compute_transform2(audio.sum(axis=1), sampleRate=sampleRate)
+# print('melspec.shape: ', melspec.shape) # (1294, 43)
+sec_per_spectrogram = hopsize  / sampleRate * batch_size # 1.49
 num_batch = int(melspec.shape[0]/batch_size)
+# print('num_batch: ', num_batch) # 10
 melspec_tensor = np.zeros((num_batch,feature_dim))
+instruments_result = []
 
 for i in range(0, num_batch):
     if i+batch_size > melspec.shape[0]:
@@ -139,4 +141,47 @@ with tf.Session() as sess:
 
     prediction_result = y_conv_softmax.eval(feed_dict={x: melspec_tensor, keep_prob: 1.0, keep_prob2: 1.0})
     for i in range(0, num_batch):
-        print(instruments[np.argmax(prediction_result[i,:])])
+        instruments_result.append(instruments[np.argmax(prediction_result[i,:])])
+
+print(instruments_result) 
+
+
+
+cap = cv2.VideoCapture("./video_clip/"+filename+".mp4")
+
+if cap.isOpened() == False:
+    print("Error opening video stream or file")
+
+fps = cap.get(CV_CAP_PROP_FPS)
+inst_change_interval = fps * sec_per_spectrogram
+
+# Default resolutions of the frame are obtained.The default resolutions are system dependent.
+# We convert the resolutions from float to integer.
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+ 
+# Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+out = cv2.VideoWriter('./output/'+filename+'.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+font = cv2.FONT_HERSHEY_SIMPLEX
+
+while(True):
+    ret, frame = cap.read()
+
+    if ret == True: 
+        spec_idx = frame / inst_change_interval
+
+        if spec_idx < num_batch:
+            cv2.putText(frame, instruments_result[spec_idx], (0,0), font, 0.8,(255,255,255),2, cv2.LINE_AA)
+
+        out.write(frame)
+        cv2.imshow('output',frame)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    else:
+        break 
+cap.release()
+out.release()
+ 
+cv2.destroyAllWindows() 

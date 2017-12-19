@@ -29,7 +29,7 @@ suffix_out='_label_'
 file_list = [f for f in os.listdir(feature_dir_train) 
             if f.endswith(suffix_in+'.data') and 
             os.path.isfile(os.path.join(feature_dir_train,f.replace(suffix_in,suffix_out))) ]
-# print 'training file list: \n'+str(file_list)
+print 'training file list: \n'+str(file_list)
 
 melspec = util.loadTensor(out_path=os.path.join(feature_dir_train,file_list[0]))
 # plt.imshow(np.log10(1+100*melspec.T),interpolation='none', origin='lower')

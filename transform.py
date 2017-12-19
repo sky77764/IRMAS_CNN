@@ -202,8 +202,8 @@ class transformMEL(Transforms):
 
         #compute the mel filters using librosa
         mel_basis = mel(self.sampleRate, n_fft = float(self.frameSize), n_mels=self.bins, fmin=self.fmin, fmax=self.fmax, htk=False,norm=1)
-        
-        return np.dot(mel_basis, mag.T).T
+        # print('mel_basis.shape: ', mel_basis.shape, ', mag.shape', mag.shape) # (43, 513), (261, 513)
+        return np.dot(mel_basis, mag.T).T # (261, 43)
 
 
 def sinebell(lengthWindow):
@@ -252,15 +252,15 @@ def stft_norm(data, window=sinebell(2048),
     # window defines the size of the analysis windows
     lengthWindow = window.size
     
-    lengthData = data.size
+    lengthData = data.size  
     
     # should be the number of frames by YAAFE:
     numberFrames = int(np.ceil(lengthData / np.double(hopsize)) + 2)
     # to ensure that the data array s big enough,
     # assuming the first frame is centered on first sample:
     newLengthData = int((numberFrames-1) * hopsize + lengthWindow)
-    print('lengthData: ', lengthData, ', hopsize: ', hopsize)
-    print('numberFrames: ', numberFrames, ', newLengthData: ', newLengthData)
+    # print('lengthData: ', lengthData, ', hopsize: ', hopsize, ', lengthWindow: ', lengthWindow) # 661500, 512, 1024
+    # print('numberFrames: ', numberFrames, ', newLengthData: ', newLengthData) # 1294, 663040
     
     # !!! adding zeros to the beginning of data, such that the first window is
     # centered on the first sample of data
@@ -275,14 +275,16 @@ def stft_norm(data, window=sinebell(2048),
     
     STFT = np.zeros([numberFrequencies, numberFrames], dtype=complex)
     
+    
     # storing FT of each frame in STFT:
     for n in np.arange(numberFrames):
         beginFrame = int(n*hopsize)
         endFrame = beginFrame+lengthWindow
+        # print('beginFrame: ', beginFrame, ", endFrame: ", endFrame)
         frameToProcess = window*data[beginFrame:endFrame]
         STFT[:,n] = np.fft.rfft(frameToProcess, np.int32(nfft))
         frameToProcess = None
-    
+    # print(STFT.shape) # (513, 1294)
     return STFT.T
 
 

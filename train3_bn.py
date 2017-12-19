@@ -21,15 +21,15 @@ if not os.path.exists(feature_dir_train):
 d=os.path.join(path_to_irmas,'Training')
 instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
 
-ckpt_path = './ckpt/train_mode_batchnorm3_softmax.ckpt'
-ckpt_load_idx = 96000
-save_interval = 3000
+ckpt_path = './ckpt/final_model.ckpt'
+ckpt_load_idx = 0
+save_interval = 5000
 train_acc_interval = 500
 valid_acc_interval = 1000
 
 # Training Parameters
-learning_rate = 0.0001
-num_steps = 200000
+learning_rate = 0.001
+num_steps = 100000
 batch_size = 128
 
 db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=128, step=64, 
@@ -37,7 +37,7 @@ db=MyDataset(feature_dir=feature_dir_train, batch_size=batch_size, time_context=
 
 # Network Parameters
 feature_dim = 5504 
-num_classes = 9 
+num_classes = 8 
 dropout = 1.0
 dropout2 = 1.0 
 
