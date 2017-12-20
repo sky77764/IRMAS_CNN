@@ -14,28 +14,29 @@ from dataset import MyDataset
 from datetime import datetime
 import moviepy.editor as mp
 import cv2
+import subprocess
 
 VIDEO_MODE = True
-MAKE_CLIP = False
+MAKE_CLIP = True
 
 # clip and seperate vid & aud
 filename = "saxophone"
 if VIDEO_MODE:
     audio_file_name = "./sound/"+filename+".wav"
     if MAKE_CLIP:
-        clip = mp.VideoFileClip("./video/"+filename+".mp4").subclip(75,90)
+        clip = mp.VideoFileClip("./video/"+filename+".mp4").subclip(60,90)
         clip.audio.write_audiofile(audio_file_name)
         clip.write_videofile("./video_clip/"+filename+".mp4")
 else:
     audio_file_name = './'+filename+'.wav'
 
-path_to_irmas = '/home/js/dataset/IRMAS/'
+# path_to_irmas = '/home/js/dataset/IRMAS/'
 
-d=os.path.join(path_to_irmas,'Training')
-instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
-
-ckpt_path = './ckpt/train_mode_batchnorm3_softmax.ckpt'
-ckpt_load_idx = 105000
+# d=os.path.join(path_to_irmas,'Training')
+# instruments = sorted(filter(lambda x: os.path.isdir(os.path.join(d, x)), os.listdir(d)))
+instruments = ['acoustic guitar', 'cello', 'electric guitar', 'flute', 'organ', 'piano', 'sax', 'violin']
+ckpt_path = './ckpt/final_model.ckpt'
+ckpt_load_idx = 95000
 
 batch_size = 128
 
@@ -146,42 +147,50 @@ with tf.Session() as sess:
 print(instruments_result) 
 
 
+if VIDEO_MODE:
+    cap = cv2.VideoCapture("./video_clip/"+filename+".mp4")
 
-cap = cv2.VideoCapture("./video_clip/"+filename+".mp4")
+    if cap.isOpened() == False:
+        print("Error opening video stream or file")
 
-if cap.isOpened() == False:
-    print("Error opening video stream or file")
+    fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+    inst_change_interval = fps * sec_per_spectrogram
 
-fps = cap.get(CV_CAP_PROP_FPS)
-inst_change_interval = fps * sec_per_spectrogram
+    # Default resolutions of the frame are obtained.The default resolutions are system dependent.
+    # We convert the resolutions from float to integer.
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+    
+    # Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
+    out = cv2.VideoWriter('./output/'+filename+'.avi',cv2.cv.CV_FOURCC('M','J','P','G'), fps, (frame_width,frame_height))
+    font = cv2.FONT_HERSHEY_SIMPLEX
 
-# Default resolutions of the frame are obtained.The default resolutions are system dependent.
-# We convert the resolutions from float to integer.
-frame_width = int(cap.get(3))
-frame_height = int(cap.get(4))
- 
-# Define the codec and create VideoWriter object.The output is stored in 'outpy.avi' file.
-out = cv2.VideoWriter('./output/'+filename+'.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
-font = cv2.FONT_HERSHEY_SIMPLEX
+    frame_idx = -1
+    while(True):
+        ret, frame = cap.read()
+        
+        frame_idx = frame_idx + 1
+        if ret == True: 
+            spec_idx = int(frame_idx / inst_change_interval)
 
-while(True):
-    ret, frame = cap.read()
+            if spec_idx < num_batch:
+                cv2.putText(frame, instruments_result[spec_idx], (50,50), font, 1.3,(255,255,255),2)
 
-    if ret == True: 
-        spec_idx = frame / inst_change_interval
+            out.write(frame)
+            cv2.imshow('output',frame)
 
-        if spec_idx < num_batch:
-            cv2.putText(frame, instruments_result[spec_idx], (0,0), font, 0.8,(255,255,255),2, cv2.LINE_AA)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
-        out.write(frame)
-        cv2.imshow('output',frame)
+        else:
+            break 
+    cap.release()
+    out.release()
+    
+    cv2.destroyAllWindows() 
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
-    else:
-        break 
-cap.release()
-out.release()
- 
-cv2.destroyAllWindows() 
+# merge vid & aud
+cmd = 'ffmpeg -i ./output/'+filename+'.avi -i ./sound/'+filename+'.wav  -c:v copy -c:a aac -strict experimental -flags global_header  -map 0:v:0 -map 1:a:0 ./output/'+filename+'.mp4'
+subprocess.call(cmd, shell=True) 
+print('Muxing Done')
